@@ -2,12 +2,14 @@ import { env } from "./config/processEnv.js";
 import mongoose from "mongoose";
 import express from "express";
 import { authRouter } from "./routes/authRoutes.js";
+import { contentRouter } from "./routes/contentRoutes.js";
 
 const app = express();
 const port = env.PORT;
 
 app.use(express.json());
 app.use("/auth", authRouter);
+app.use("/content", contentRouter);
 
 app.get("/", (req, res) => {
   res.send("hello, frist time from TS");
