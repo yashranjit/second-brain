@@ -88,10 +88,18 @@ const viewContent = async (req: express.Request, res: express.Response) => {
   }
 };
 const deleteContent = async (req: express.Request, res: express.Response) => {
-  const contentid = req.body.contenId;
+  const contentid = req.body.contentId;
   const userid = new mongoose.Types.ObjectId(req.userId);
   try {
-    await ContentModel.deleteOne({ _id: contentid, userId: userid });
+    const result = await ContentModel.deleteOne({
+      _id: contentid,
+      userId: userid,
+    });
+    if (result.deletedCount === 0) {
+      return res
+        .status(StatusCodes.NotFound)
+        .json({ message: "Content not found or not authorized." });
+    }
     res.status(StatusCodes.Success).json({ message: "Deleted." });
   } catch (err) {
     res

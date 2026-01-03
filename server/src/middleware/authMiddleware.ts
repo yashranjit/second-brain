@@ -2,11 +2,12 @@ import express from "express";
 import { env } from "../config/processEnv.js";
 import jwt, { type JwtPayload } from "jsonwebtoken";
 import { StatusCodes } from "../utils/responseUtils.js";
+import mongoose, { Types } from "mongoose";
 
 declare global {
   namespace Express {
     interface Request {
-      userId?: string;
+      userId?: Types.ObjectId;
     }
   }
 }
@@ -29,7 +30,7 @@ const authMiddleware = (
       env.JWT_SECRET,
     ) as JwtPayload;
     if (decoded && decoded.userId) {
-      req.userId = decoded.userId;
+      req.userId = new mongoose.Types.ObjectId(decoded.userId);
       next();
     } else {
       return res
