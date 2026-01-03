@@ -1,0 +1,1 @@
+{"root":["./src/index.ts","./src/config/processenv.ts","./src/controllers/authcontrollers.ts","./src/models/content.ts","./src/models/link.ts","./src/models/tags.ts","./src/models/user.ts","./src/routes/authroutes.ts","./src/validators/authschema.ts","./src/validators/envschema.ts"],"version":"5.9.3"}
