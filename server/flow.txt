@@ -1,0 +1,37 @@
+the main difference in Js and TS is Type Safety. We need to tell the code what data looks like in Ts projects
+
+server folder lo nenu first
+    1) npm init -y : chesina
+    2) dependencies install chesina : npm i express mongoose dotenv zod jsonwebtoken bcrypt cors
+    3) dev dependencies ni install chesina: npm i -D typescript @types/express @types/jsonwebtoken @types/bcrypt @types/cors @types/node
+-- think of dependencies and dev dependencies as runtime and build time (ante manam build chese tappudu kavalsina dependencies devDependencies, application run kavalante kavalsinavi dependencies)
+-- see while running u do node dist/index.js, appudu niku typescript kavala? @types/express kavala? no
+-- kavalsinavi express mongoose etc
+    4) in package.json i changed "type":"commonjs" -> "type":"module"
+    5) do npx tsc --init
+
+
+Express app typescript lo rayadam:
+    1) Import cheskovali : import express from "express"
+    2) const app = express()
+    3) app.use(express.json());
+    4) app.listen(port,()=>{console.log("listening on port")})
+
+ENV:
+    -- dotenv library
+    1) import dotenv and zod: import dotenv from "dotenv"
+        import {z} from "zod"
+        -- zod vaduthe strict ga checks cheyochu, early ga errors telsukovachu, process.env appudu string|undefined lagane env variables ni isthadhi appudu undefined unte, app crash run aina taruvatha avthadhi - late ga errors telsuthe loss avtham,
+    2) dotenv.congig() cheyali
+    3) eppudu zod tho schema ni cheyali: z.object({PORT: z.corce.number().default(3000),
+    DB_URL:z.string().min(1,"DB_URL is required"),
+    JWT_SECRET:z.string().min(1,"JWT_SECRET is required")})
+    4) using schema we have to check if the variables in .env conform to zod schema - const parsedEnv = envSchema.safeParse(process.env);
+    5) if the success key in parsedEnv object is not true then it is clear that env variables are invalid, er terminate the process using process.env(1)
+    6) if the success key in parsedEnv object is true then we export it: export cont env = parsedEnv.data;
+
+
+
+Express (index.ts):
+    1) now import environment variables: import {PORT,DB_URL} from "./config/processEnv.js"
+-- why .js in "./config/processEnv.js" because .ts file compile ainaka run aiedhi .js file eh- so ts file code antha js file ki transpile avthadhi kabbati addresses mathram manam mention cheyali
