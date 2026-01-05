@@ -3,13 +3,15 @@ import mongoose from "mongoose";
 import express from "express";
 import { authRouter } from "./routes/authRoutes.js";
 import { contentRouter } from "./routes/contentRoutes.js";
+import { linkRouter } from "./routes/linkRoutes.js";
 
 const app = express();
 const port = env.PORT;
 
 app.use(express.json());
-app.use("/auth", authRouter);
-app.use("/content", contentRouter);
+app.use("/sb/auth", authRouter);
+app.use("/sb/content", contentRouter);
+app.use("/sb/public", linkRouter);
 
 app.get("/", (req, res) => {
   res.send("hello, frist time from TS");

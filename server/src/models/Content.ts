@@ -7,6 +7,7 @@ const contentTypes = [
   "video",
   "tweet",
   "youtube",
+  "document",
 ] as const;
 
 const ContentSchema = new Schema(
